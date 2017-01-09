@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" data-rem="375">
+<head>
+<meta charset="UTF-8">
+<title>JSBridge测试</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="no"/>
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" type="text/css"
+href="//cdnjs.cloudflare.com/ajax/libs/weui/1.1.0/style/weui.min.css"/>
+<style>
+.container {
+padding: 10px;
+}
+button{
+width:300px;
+height:40px;
+}
+.margin{
+margin:5px
+}
+
+
+
+</style>
+<script type="text/javascript" charset="utf-8">
+    
+<!--    /*js 自动注入js*/-->
+<!--    function setupWebViewJavascriptBridge(callback) {-->
+<!--        if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }-->
+<!--        if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }-->
+<!--        window.WVJBCallbacks = [callback];-->
+<!--        var WVJBIframe = document.createElement('iframe');-->
+<!--        WVJBIframe.style.display = 'none';-->
+<!--        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';-->
+<!--        document.documentElement.appendChild(WVJBIframe);-->
+<!--        setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)-->
+<!--    }-->
+<!---->
+<!--    setupWebViewJavascriptBridge()-->
+                             
+WebViewJavascriptBridge.registerHandler('invokeJavascriptHandler', function(data, responseCallback) {
+                                                    alert('If I can invoke' + data.say)
+                                                    responseCallback({say : 'Hi'})
+                                                    })
+
+function test_Hybird(){
+    var data = {
+        schema: 'near-merchant-native://',
+        action: 'logout'
+    }
+
+WebViewJavascriptBridge.callHandler('Hybird', data, function(cb){
+                                    alert('js 收到回调 ' + cb.ret)
+                                        })
+                                        
+}
+
+function testClosure() {
+    var closure = function(cb) {
+        alert('hello closure ' + cb)
+    }
+    
+    closure('HH')
+}
+
+</script>
+</head>
+<body>
+<script id="__bs_script__">
+//<![CDATA[document.write("<script async src='/browser-sync/browser-sync-client.2.13.0.js'><\/script>".replace("HOST", location.hostname));//]]>
+
+
+
+
+</script>
+
+<div class="container">
+<button class=".margin" type="button" onclick="test_Hybird()">测试Bridge
+</button>
+
+</div>
+<script type="text/javascript" charset="utf-8">
+(function () { var script = document.createElement('script'); script.src="//liriliri.github.io/eruda/eruda.min.js"; document.body.appendChild(script); script.onload = function () { eruda.init() } })()
+
+
+</script>
+</body>
+</html>
